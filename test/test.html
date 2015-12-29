@@ -12,12 +12,25 @@
 			name    : "tom",
 			date    : 'friday',
 			profile : {
-				birthday : '12-20'
+				birthday : '12-20',
+				school   : 'zju'
 			}
 		}
 
+		var a = 2;
+		// var EXP_TRIM     = /(^\s+)|(\s+$)/g;
+		// var EXP_IF       = /^~if*\s\((.+?)\)(.+?)~else/g;
+		// var EXP_ENTER    = /[\r\n]/g;
+		var dom = document.getElementById('renderPlace');
 		var tmp = document.getElementById('test');
 
+		// tmp = tmp.innerHTML.replace(EXP_TRIM,'').replace(EXP_ENTER, '').replace(EXP_IF, function(x, y, z) {
+		// 	var k = new Function('return('+y+')')
+		// 	//console.log(k());
+		// 	return ''
+		// })
+
+		// console.log(tmp)
 		ekko.render(dom, tmp, sourcedata);
 	}
 	
@@ -26,7 +39,14 @@
 <body>
 	<div id="renderPlace"></div>
 	<script type="text/html" id="test">
+	    ~if ( this.name == 'jerry' )
 		<p>{{ name }},today is {{ date }}, my birthday is {{ profile.birthday }}</p>
+		~else ~if ( this.date == 'a' )
+		<p>{{ name }},today is {{ date }}, my school is {{ profile.school }}</p>
+		~else
+		<p>{{ name }},today is {{ date }}, my name is {{ name }}</p>
+		~
+
 	</script>
 </body>
 </html>

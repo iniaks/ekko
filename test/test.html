@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="../src/ekko.js"></script>
+	<script type="text/javascript">
+
+	window.onload = function() {
+
+		var tpl  = "<p>{{ name }},today is {{ date }}, my birthday is {{ profile.birthday }}</p>";
+		var sourcedata = {
+			name    : "tom",
+			date    : 'friday',
+			profile : {
+				birthday : '12-20'
+			}
+		}
+
+		var tmp = document.getElementById('test');
+
+		ekko.render(dom, tmp, sourcedata);
+	}
+	
+	</script>
+</head>
+<body>
+	<div id="renderPlace"></div>
+	<script type="text/html" id="test">
+		<p>{{ name }},today is {{ date }}, my birthday is {{ profile.birthday }}</p>
+	</script>
+</body>
+</html>

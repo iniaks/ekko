@@ -1,8 +1,9 @@
-# ekko
-personal testing javascript engine
+# ekko.js
+
+实验性的前端模板引擎
 
 
-1. 实现无逻辑的数据绑定
+## 实现无逻辑的数据绑定
 
 你想要放置内容的dom位置：
 ```html
@@ -40,7 +41,7 @@ personal testing javascript engine
     <div>
 ```
 
-2. 实现if else模板
+## 实现if else模板
 
 语法:
 ````html
@@ -62,7 +63,7 @@ personal testing javascript engine
     </script>
 ```
 
-3. 实现循环模板
+## 实现循环模板
 
 有数组:
 ```javascript

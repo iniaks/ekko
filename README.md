@@ -11,7 +11,7 @@ personal testing javascript engine
 
 假设有一份数据：
 ```javascript
-    user = {
+    var user = {
         name : "Tom",
         profile: {
             birthday : '1988-12-20'
@@ -22,7 +22,7 @@ personal testing javascript engine
 创建模板一份模板文件：
 ```html
     <script type="text/html" id="template>
-    My name is {{ name }}, My birthday is {{ profile.birthday }}
+        <p>My name is {{ name }}, My birthday is {{ profile.birthday }}</p>
     </script>
 ```
 
@@ -42,6 +42,61 @@ personal testing javascript engine
 
 2. 实现if else模板
 
+语法:
+````html
+     <script type="text/html" id="template>
+         ~if ( name == 'Tom' )
+            <p>My name is {{ name }}, My birthday is {{ profile.birthday }}</p>
+         ~
+     </script>
+```
+
+支持逻辑分支:
+```html
+    <script type="text/html" id="template>
+          ~if ( name == 'Jerry' )
+             <p>I'm Jerry</p>
+          ~else ~if ( name == 'Tom' )
+             <p>I'm Tom</p>
+          ~
+    </script>
+```
+
 3. 实现循环模板
 
-var EXP_CATEGORY = /(~if|@for)(.*)?/;
+有数组:
+```javascript
+    var list = [
+        {
+           name   : 'Tom',
+           gender : 'male'
+        },
+        {
+           name   : 'Jerry',
+           gender : 'female'
+        },
+        {
+           name   : 'Jim',
+           gender : 'male'
+        },
+        {
+           name   : 'Kenny',
+           gender : 'female
+        },
+        {
+           name   : 'Geoge',
+           gender : 'male'
+        }
+    ]
+```
+
+语法:
+```html
+    <script type="text/html" id="template>
+          @for ( user in list )
+             <p>Name: {{ user.name  }}, Gender: {{ user.gender }}</p>
+          @
+    </script>
+```
+
+支持相互嵌套

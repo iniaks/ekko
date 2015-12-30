@@ -21,7 +21,7 @@ personal testing javascript engine
 
 创建模板一份模板文件：
 ```html
-    <script type="text/html" id="template>
+    <script type="text/html" id="template">
         <p>My name is {{ name }}, My birthday is {{ profile.birthday }}</p>
     </script>
 ```
@@ -44,7 +44,7 @@ personal testing javascript engine
 
 语法:
 ````html
-     <script type="text/html" id="template>
+     <script type="text/html" id="template">
          ~if ( name == 'Tom' )
             <p>My name is {{ name }}, My birthday is {{ profile.birthday }}</p>
          ~
@@ -53,7 +53,7 @@ personal testing javascript engine
 
 支持逻辑分支:
 ```html
-    <script type="text/html" id="template>
+    <script type="text/html" id="template">
           ~if ( name == 'Jerry' )
              <p>I'm Jerry</p>
           ~else ~if ( name == 'Tom' )
@@ -92,7 +92,7 @@ personal testing javascript engine
 
 语法:
 ```html
-    <script type="text/html" id="template>
+    <script type="text/html" id="template">
           @for ( user in list )
              <p>Name: {{ user.name  }}, Gender: {{ user.gender }}</p>
           @

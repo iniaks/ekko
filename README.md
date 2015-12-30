@@ -81,7 +81,7 @@ personal testing javascript engine
         },
         {
            name   : 'Kenny',
-           gender : 'female
+           gender : 'female'
         },
         {
            name   : 'Geoge',

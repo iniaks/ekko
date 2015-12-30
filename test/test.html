@@ -62,15 +62,15 @@
 <body>
 	<div id="renderPlace"></div>
 	<script type="text/html" id="test">
-	<h2>hello this is my personal javascript template engine</h2>
+		<h2>hello this is my personal javascript template engine</h2>
 
-	@for (item in sequence)
-		~if (item.gender =='male')
-			<p>I'm {{ item.name }},I'm a boy, I graduate from {{ item.profile.school }}</p>
-	    ~else
-			<p>I'm {{ item.name }},I'm a girl, I graduate from {{ item.profile.school }}</p>
-	    ~
-	@
+		@for (item in sequence)
+			~if (item.gender =='male')
+				<p>I'm {{ item.name }},I'm a boy, I graduate from {{ item.profile.school }}</p>
+			~else
+				<p>I'm {{ item.name }},I'm a girl, I graduate from {{ item.profile.school }}</p>
+			~
+		@
 	</script>
 </body>
 </html>

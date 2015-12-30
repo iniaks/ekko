@@ -17,21 +17,36 @@
 			}
 		}
 
+		var sequence = [
+			{name: 'tom'},
+			{name: 'jerry'},
+			{name: 'alice'},
+			{name: 'kobe'},
+			{name: 'lily'}
+		];
+
 		var a = 2;
-		// var EXP_TRIM     = /(^\s+)|(\s+$)/g;
-		// var EXP_IF       = /^~if*\s\((.+?)\)(.+?)~else/g;
-		// var EXP_ENTER    = /[\r\n]/g;
+		var EXP_TRIM     = /(^\s+)|(\s+$)/g;
+		var EXP_ENTER    = /[\r\n]/g;
 		var EXP_FOR      = /^@for*\s\((.+?)\)(.+?)@/g;
 		var dom = document.getElementById('renderPlace');
 		var tmp = document.getElementById('test');
 
-		tmp = tmp.innerHTML.replace(EXP_TRIM,'').replace(EXP_ENTER, '').replace(EXP_IF, function(x, y, z) {
-			console.log(y);
-			return ''
-		})
+//		tmp = tmp.innerHTML.replace(EXP_TRIM,'').replace(EXP_ENTER, '').replace(EXP_FOR, function(x, y, z) {
+//
+//			var loop =  function (source) {
+//				for (item in source) {
+//					console.log(y.replace(EXP_TRIM, ''));
+//				}
+//			};
+//
+//			loop(sequence);
+//
+//			return ''
+//		})
 
 		// console.log(tmp)
-		ekko.render(dom, tmp, sourcedata);
+		ekko.render(dom, tmp, sequence);
 	}
 	
 	</script>
@@ -40,7 +55,7 @@
 	<div id="renderPlace"></div>
 	<script type="text/html" id="test">
 		@for ( item in sequence )
-		<p>item.name</p>
+		<p>{{ item.name }}</p>
 		@
 
 	</script>

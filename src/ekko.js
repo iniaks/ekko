@@ -15,6 +15,23 @@ var ekko = (function() {
 	var EXP_ENTER    = /[\r\n]/g;
 	//判断语句
 	var EXP_IF       = /^~if*\s\((.+?)\)(.+?)~/;
+	//循环语句
+	var EXP_FOR      = /^@for*\s\((.+?)\)(.+?)@/g;
+
+	function forlogic(content, data) {
+		return content.replace(EXP_FOR, function(source, loop, repeatItem) {
+			//构建循环来重复模板
+			var repeat = function(array_data) {
+				var _temp_result = [];
+				//依据数据依次渲染模板
+				for ( var prop in array_data ) {
+					_temp_result.push( plaintxt(repeatItem.replace(EXP_TRIM, ''), array_data[prop]) )
+				}
+				return _temp_result.join('');
+			}
+			return repeat(data)
+		})
+	}
 
 	function iflogic(content, data) {
 
@@ -60,7 +77,7 @@ var ekko = (function() {
 			var _result = data;
 			//遍历多层属性访问到最终属性值
 			for (var i = 0; i < _prop.length; i++) {
-				_result = _result[ _prop[i] ];
+				_result = ( _result[ _prop[i] ] )? _result[ _prop[i]] : _result ;
 			}
 
 			return _result	
@@ -74,7 +91,7 @@ var ekko = (function() {
 			//提取模板内容,去除回车和空格
 			var template = template.innerHTML.replace(EXP_TRIM, '').replace(EXP_ENTER, '');
 			
-			dom.innerHTML = iflogic(template, data);
+			dom.innerHTML = forlogic(template, data);
 
 		} catch(err) {
 			//抛出错误

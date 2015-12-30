@@ -20,7 +20,7 @@ personal testing javascript engine
 ```
 
 创建模板一份模板文件：
-```javascript
+```html
     <script type="text/html" id="template>
     My name is {{ name }}, My birthday is {{ profile.birthday }}
     </script>

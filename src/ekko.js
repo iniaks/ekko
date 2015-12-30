@@ -12,32 +12,67 @@ var ekko = (function() {
 	//去除空格
 	var EXP_TRIM     = /(^\s+)|(\s+$)/g;
 	//去除换行
-	var EXP_ENTER    = /[\r\n]/g;
+	var EXP_ENTER    = /[\r\n\t]/g;
 	//判断语句
 	var EXP_IF       = /^~if*\s\((.+?)\)(.+?)~/;
 	//循环语句
 	var EXP_FOR      = /^@for*\s\((.+?)\)(.+?)@/g;
+	//判断模板类型
+	var EXP_CATEGORY = /(~if|@for)(.*)?/;
 
+
+
+	function renderAsOrder(content, data) {
+		return (function() {
+			return (function() {
+
+				var _categroy = EXP_CATEGORY.exec(content);
+
+				if (!_categroy) {
+					return plaintxt(content.replace(EXP_TRIM, ''), data);
+				} else {
+					return content.replace(EXP_CATEGORY, function(renderpart, category) {
+						switch (category) {
+							case '@for':
+								return forlogic(renderpart.replace(EXP_TRIM, ''), data);
+								break;
+							case '~if':
+								return iflogic(content.replace(EXP_TRIM, ''), data);
+								break;
+						}
+					})
+				}
+			})()
+		})()
+
+	}
+
+	var ITEM_EXP = '';
+	//对循环摸吧的渲染
 	function forlogic(content, data) {
 		return content.replace(EXP_FOR, function(source, loop, repeatItem) {
+			//提取item关键字
+			ITEM_EXP = new RegExp(loop.split('in')[0].replace(EXP_TRIM,''), 'g');
+
 			//构建循环来重复模板
 			var repeat = function(array_data) {
 				var _temp_result = [];
 				//依据数据依次渲染模板
 				for ( var prop in array_data ) {
-					_temp_result.push( plaintxt(repeatItem.replace(EXP_TRIM, ''), array_data[prop]) )
+					_temp_result.push( renderAsOrder(repeatItem.replace(EXP_TRIM, ''), array_data[prop]) )
 				}
+
 				return _temp_result.join('');
 			}
+
 			return repeat(data)
 		})
 	}
 
+	//对 if else 模板的渲染
 	function iflogic(content, data) {
 
 		var result;
-
-		console.log(content.split('else'));
 
 		var _content = content.split('else');
 
@@ -46,13 +81,16 @@ var ekko = (function() {
 			var done = false;
 
 			if ( i == _content.length-1 ) {
-				result = plaintxt( _content[i].replace('~', '').replace(EXP_TRIM, ''), data )
+				result = renderAsOrder( _content[i].replace('~', '').replace(EXP_TRIM, ''), data )
 			} else {
 				var _temp = _content[i].replace(EXP_IF, function(source, condition, domTemplate) {
-					var _condition = new Function('return(' + condition + ')').apply(data);
+
+					var _temp_condition = (ITEM_EXP != '')? condition.replace(ITEM_EXP, 'this') :'this.'+condition;
+
+					var _condition = new Function('return(' + _temp_condition + ')').apply(data);
 
 					if ( _condition ) {
-						result = plaintxt( domTemplate.replace(EXP_TRIM, ''), data );
+						result = renderAsOrder( domTemplate.replace(EXP_TRIM, ''), data );
 						done = true;
 					}
 				})
@@ -68,9 +106,10 @@ var ekko = (function() {
 	//对无逻辑模板的渲染
 	function plaintxt(content, data) {
 		//匹配变量内容，通过属性访问数据源
-		var _transfer = content.replace( EXP_VARIABLE, function(source, prop) {
+		var _transfer = content.replace( EXP_VARIABLE, function(source, prop, leftContent) {
 			//去除属性值的空格
 			var _temp   = prop.replace(EXP_TRIM, '');
+
 			//根据点号分割，获得多层属性值
 			var _prop   = _temp.split('.');
 			//初始化数据源
@@ -91,7 +130,7 @@ var ekko = (function() {
 			//提取模板内容,去除回车和空格
 			var template = template.innerHTML.replace(EXP_TRIM, '').replace(EXP_ENTER, '');
 			
-			dom.innerHTML = forlogic(template, data);
+			dom.innerHTML = renderAsOrder(template, data);
 
 		} catch(err) {
 			//抛出错误

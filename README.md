@@ -7,3 +7,5 @@ personal testing javascript engine
 2. 实现if else模板
 
 3. 实现循环模板
+
+var EXP_CATEGORY = /(~if|@for)(.*)?/;

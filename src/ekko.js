@@ -54,6 +54,8 @@ var ekko = (function() {
 			//提取item关键字
 			ITEM_EXP = new RegExp(loop.split('in')[0].replace(EXP_TRIM,''), 'g');
 
+			var loop_data = loop.split('in')[1].replace(EXP_TRIM,'');
+
 			//构建循环来重复模板
 			var repeat = function(array_data) {
 				var _temp_result = [];
@@ -65,7 +67,9 @@ var ekko = (function() {
 				return _temp_result.join('');
 			}
 
-			return repeat(data)
+
+
+			return repeat( getValue(data, loop_data) );
 		})
 	}
 
@@ -110,19 +114,22 @@ var ekko = (function() {
 			//去除属性值的空格
 			var _temp   = prop.replace(EXP_TRIM, '');
 
-			//根据点号分割，获得多层属性值
-			var _prop   = _temp.split('.');
-			//初始化数据源
-			var _result = data;
-			//遍历多层属性访问到最终属性值
-			for (var i = 0; i < _prop.length; i++) {
-				_result = ( _result[ _prop[i] ] )? _result[ _prop[i]] : _result ;
-			}
-
-			return _result	
+			return getValue(data, _temp);
 		})
 
 		return _transfer;
+	}
+
+	function getValue(bind_data,properties) {
+		var _prop = properties.split('.');
+
+		var _result = bind_data;
+
+		for (var i = 0; i < _prop.length; i++) {
+			_result = ( _result[ _prop[i] ] )? _result[ _prop[i]] : _result ;
+		}
+
+		return _result
 	}
 
 	var render = function(dom, template, data) {

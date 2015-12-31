@@ -17,38 +17,21 @@
 				name    : "Tom",
 				gender  : 'male',
 				profile : {
-					school   : 'Harvard'
+					school   : ['Harvard','Cambridge']
 				}
 			},
 			{
 				name    : "Jerry",
 				gender  : 'female',
 				profile : {
-					school   : 'Cansas'
+					school   : ['Cansas','Washington','California']
 				}
-			},{
+			},
+			{
 				name    : "Lily",
 				gender  : 'female',
 				profile : {
-					school   : 'Duke'
-				}
-			},{
-				name    : "Mike",
-				gender  : 'male',
-				profile : {
-					school   : 'MIT'
-				}
-			},{
-				name    : "Roy",
-				gender  : 'male',
-				profile : {
-					school   : 'MIT'
-				}
-			},{
-				name    : "Kate",
-				gender  : 'female',
-				profile : {
-					school   : 'Stanford'
+					school   : ['Duke','Norton','Oxford']
 				}
 			}
 		];
@@ -59,7 +42,7 @@
 
 
 		// console.log(tmp)
-		ekko.render(dom, tmp, user);
+		ekko.render(dom, tmp, sequence);
 	}
 	
 	</script>
@@ -69,9 +52,13 @@
 	<script type="text/html" id="test">
 		<h2>hello this is my personal javascript template engine</h2>
 
-		@for (shcool in user.school)
+		@for ( item in sequence )
+			@for ( school in item.profile.school )
 			<p>I went {{ school }}</p>
+			@
 		@
+
+		<footer>bottom</footer>
 	</script>
 </body>
 </html>

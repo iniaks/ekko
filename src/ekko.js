@@ -16,9 +16,9 @@ var ekko = (function() {
 	//判断语句
 	var EXP_IF       = /^~if*\s\((.+?)\)(.+?)~/;
 	//循环语句
-	var EXP_FOR      = /^@for*\s\((.+?)\)(.+?)@/g;
+	var EXP_FOR      = /^@for*\s\((.+?)\)(.+?)@$/g;
 	//判断模板类型
-	var EXP_CATEGORY = /(~if|@for)(.*)?/;
+	var EXP_CATEGORY = /(~if|@for)(.*)?(~|@)/;
 
 
 

@@ -101,3 +101,21 @@
 ```
 
 支持相互嵌套
+```html
+    <script type="text/html" id="template">
+          @for ( item in sequence )
+          		<p>{{ item.name }} is a {{ item.gender }},
+          			@for ( school in item.profile.school )
+          			<span>{{ school }}</span>
+          			@
+          		</p>
+          @
+    </script>
+```
+
+支持计算赋值
+```html
+    <script type="text/html" id="template">
+          <p>{{ (gender == 'male')? 'boy' : 'girl' }}</p>
+    </script>
+```

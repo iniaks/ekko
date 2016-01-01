@@ -20,6 +20,8 @@ var ekko = (function() {
 	//判断模板类型
 	var EXP_CATEGORY = /(~if|@for)(.*)?(~|@)/;
 
+	var _data;
+
 
 
 	function renderAsOrder(content, data) {
@@ -46,19 +48,23 @@ var ekko = (function() {
 	}
 
 	var ITEM_EXP = '';
+	var KEY_WORD = [];
 	//对循环摸吧的渲染
 	function forlogic(content, data) {
 		return content.replace(EXP_FOR, function(source, loop, repeatItem) {
 			//提取item关键字
-			ITEM_EXP = new RegExp(loop.split('in')[0].replace(EXP_TRIM,''), 'g');
+			KEY_WORD.push( loop.split('in')[0].replace(EXP_TRIM,'') );
+			ITEM_EXP = new RegExp(KEY_WORD.join('|'), 'g');
 
 			var loop_data = loop.split('in')[1].replace(EXP_TRIM,'');
 
 			//构建循环来重复模板
 			var repeat = function(array_data) {
 				var _temp_result = [];
+
 				//依据数据依次渲染模板
 				for ( var prop in array_data ) {
+
 					_temp_result.push( renderAsOrder(repeatItem.replace(EXP_TRIM, ''), array_data[prop]) )
 				}
 
@@ -108,17 +114,18 @@ var ekko = (function() {
 	//对无逻辑模板的渲染
 	function plaintxt(content, data) {
 		//匹配变量内容，通过属性访问数据源
-		var _transfer = content.replace( EXP_VARIABLE, function(source, prop, leftContent) {
+		var _transfer = content.replace( EXP_VARIABLE, function(source, prop) {
 			//去除属性值的空格
 			var _temp   = prop.replace(EXP_TRIM, '');
 
-			return getValue(data, _temp);
+			return new Function( 'return(' + _temp.replace(ITEM_EXP, 'this') + ')').apply(data);//getValue(data, _temp);
 		})
 
 		return _transfer;
 	}
 
 	function getValue(bind_data,properties) {
+
 
 		var _prop = properties.split('.');
 
@@ -128,7 +135,8 @@ var ekko = (function() {
 			_result = ( _result[ _prop[i] ] )? _result[ _prop[i]] : _result ;
 		}
 
-		return _result
+
+		return _result;
 	}
 
 	var render = function(dom, template, data) {

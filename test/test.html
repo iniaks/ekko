@@ -68,11 +68,11 @@
 		<h2>hello this is my personal javascript template engine</h2>
 
 		@for ( item in sequence )
-			<p>{{ (item.name == 'Tom') ? 'I' : 'You' }} is a {{ item.gender }},
-				@for ( school in item.profile.school )
-				<span>{{ school }}</span>
-				@
-			</p>
+		<p>{{ item.name }} is a {{ item.gender }}, {{ (item.gender == 'male')? 'he' : 'she' }} had gone
+			@for ( school in item.profile.school )
+			<span> {{ school }} </span>
+			@
+		</p>
 		@
 
 		<footer>bottom</footer>

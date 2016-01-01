@@ -100,22 +100,15 @@
     </script>
 ```
 
-支持相互嵌套
+支持相互嵌套及计算赋值
 ```html
     <script type="text/html" id="template">
           @for ( item in sequence )
-          		<p>{{ item.name }} is a {{ item.gender }},
+          		<p>{{ item.name }} is a {{ item.gender }}, {{ (item.gender == 'male')? 'he' : 'she' }} had gone
           			@for ( school in item.profile.school )
-          			<span>{{ school }}</span>
+          			<span> {{ school }} </span>
           			@
           		</p>
           @
-    </script>
-```
-
-支持计算赋值
-```html
-    <script type="text/html" id="template">
-          <p>{{ (gender == 'male')? 'boy' : 'girl' }}</p>
     </script>
 ```

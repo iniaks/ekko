@@ -36,11 +36,26 @@
 			}
 		];
 
+		var EXP_TRIM     = /(^\s+)|(\s+$)/g;
+		//去除换行
+		var EXP_ENTER    = /[\r\n\t]/g;
+
 
 		var dom = document.getElementById('renderPlace');
 		var tmp = document.getElementById('test');
+//
+		var EXP_CATEGORY = /(.+?)(~if|@for)(.*)?(~|@)/;
 
+		//console.log(EXP_CATEGORY.exec(tmp.innerHTML.replace(EXP_TRIM,'').replace(EXP_ENTER, '')));
 
+//		var html = tmp.innerHTML.replace(EXP_TRIM,'').replace(EXP_ENTER, '').replace(EXP_CATEGORY, function(x,y,z,t) {
+//
+//			console.log(z)
+//
+//			return x.replace('hello', 'yes!')
+//		})
+
+		//dom.innerHTML = html;
 		// console.log(tmp)
 		ekko.render(dom, tmp, sequence);
 	}
@@ -53,9 +68,11 @@
 		<h2>hello this is my personal javascript template engine</h2>
 
 		@for ( item in sequence )
-			@for ( school in item.profile.school )
-			<p>I went {{ school }}</p>
-			@
+			<p>{{ item.name }} went
+				@for ( school in item.profile.school )
+				<span>{{ school }}</span>
+				@
+			</p>
 		@
 
 		<footer>bottom</footer>

@@ -14,7 +14,7 @@ var ekko = (function() {
 	//去除换行
 	var EXP_ENTER    = /[\r\n\t]/g;
 	//判断语句
-	var EXP_IF       = /^~if*\s\((.+?)\)(.+?)~/;
+	var EXP_IF       = /^~if*\s\((.+?)\)(.+?)~$/;
 	//循环语句
 	var EXP_FOR      = /^@for*\s\((.+?)\)(.+?)@$/g;
 	//判断模板类型
@@ -23,27 +23,25 @@ var ekko = (function() {
 
 
 	function renderAsOrder(content, data) {
-		return (function() {
-			return (function() {
+		return plaintxt( (function() {
 
-				var _categroy = EXP_CATEGORY.exec(content);
+			var _categroy = EXP_CATEGORY.exec(content);
 
-				if (!_categroy) {
+			if (!_categroy) {
 					return plaintxt(content.replace(EXP_TRIM, ''), data);
-				} else {
-					return content.replace(EXP_CATEGORY, function(renderpart, category) {
-						switch (category) {
-							case '@for':
-								return forlogic(renderpart.replace(EXP_TRIM, ''), data);
-								break;
-							case '~if':
-								return iflogic(content.replace(EXP_TRIM, ''), data);
-								break;
-						}
-					})
-				}
-			})()
-		})()
+			} else {
+				return content.replace(EXP_CATEGORY, function(renderpart, category) {
+					switch (category) {
+						case '@for':
+							return forlogic(renderpart.replace(EXP_TRIM, ''), data);
+							break;
+						case '~if':
+							return iflogic(content.replace(EXP_TRIM, ''), data);
+							break;
+					}
+				})
+			}
+		})(), data );
 
 	}
 
@@ -121,6 +119,7 @@ var ekko = (function() {
 	}
 
 	function getValue(bind_data,properties) {
+
 		var _prop = properties.split('.');
 
 		var _result = bind_data;

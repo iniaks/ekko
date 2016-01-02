@@ -20,9 +20,6 @@ var ekko = (function() {
 	//判断模板类型
 	var EXP_CATEGORY = /(~if|@for)(.*)?(~|@)/;
 
-	var _data;
-
-
 
 	function renderAsOrder(content, data) {
 		return plaintxt( (function() {

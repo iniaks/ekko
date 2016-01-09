@@ -7,6 +7,8 @@
 
 	window.onload = function() {
 
+		console.log(window);
+
 		var user = {
 			name : 'tom',
 			school : ['JinHua No.13 Middle School','JinHua No.1 High School','ZheJiang University']
@@ -46,6 +48,8 @@
 //
 		var EXP_CATEGORY = /(.+?)(~if|@for)(.*)?(~|@)/;
 
+		console.log(tmp.innerHTML)
+
 		//console.log(EXP_CATEGORY.exec(tmp.innerHTML.replace(EXP_TRIM,'').replace(EXP_ENTER, '')));
 
 //		var html = tmp.innerHTML.replace(EXP_TRIM,'').replace(EXP_ENTER, '').replace(EXP_CATEGORY, function(x,y,z,t) {
@@ -66,7 +70,7 @@
 	<div id="renderPlace"></div>
 	<script type="text/html" id="test">
 		<h2>hello this is my personal javascript template engine</h2>
-
+		<p><script>alert('jack')</script></p>
 		@for ( item in sequence )
 		<p>{{ item.name }} is a {{ item.gender }}, {{ (item.gender == 'male')? 'he' : 'she' }} had gone
 			@for ( school in item.profile.school )

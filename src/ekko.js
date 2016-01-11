@@ -20,6 +20,8 @@ var ekko = (function() {
 	//判断模板类型
 	var EXP_CATEGORY = /(~if|@for)(.*)?(~|@)/;
 
+	var EXP_HTML     = /<[^>]+>/g;
+
 
 	function renderAsOrder(content, data) {
 		return plaintxt( (function() {
@@ -51,7 +53,10 @@ var ekko = (function() {
 		return content.replace(EXP_FOR, function(source, loop, repeatItem) {
 			//提取item关键字
 			KEY_WORD.push( loop.split('in')[0].replace(EXP_TRIM,'') );
+
 			ITEM_EXP = new RegExp(KEY_WORD.join('|'), 'g');
+
+
 
 			var loop_data = loop.split('in')[1].replace(EXP_TRIM,'');
 
@@ -115,8 +120,14 @@ var ekko = (function() {
 			//去除属性值的空格
 			var _temp   = prop.replace(EXP_TRIM, '');
 
-			return new Function( 'return(' + _temp.replace(ITEM_EXP, 'this') + ')').apply(data);//getValue(data, _temp);
+			var excute_value = (ITEM_EXP != '' )? _temp.replace(ITEM_EXP, 'this') : "this." + _temp;
+
+			var value = new Function( 'return(' + excute_value + ')').apply(data);
+
+			return value.toString().replace(EXP_HTML, "")//getValue(data, _temp);
 		})
+
+
 
 		return _transfer;
 	}
@@ -133,13 +144,17 @@ var ekko = (function() {
 		}
 
 
-		return _result;
+		return _result.toString().replace(EXP_HTML, "");
 	}
 
 	var render = function(dom, template, data) {
 		try {
 			//提取模板内容,去除回车和空格
 			var template = template.innerHTML.replace(EXP_TRIM, '').replace(EXP_ENTER, '');
+
+			console.log(dom.innerHTML);
+
+			console.log(renderAsOrder(template, data));
 			
 			dom.innerHTML = renderAsOrder(template, data);
 

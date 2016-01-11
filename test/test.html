@@ -3,7 +3,9 @@
 <head>
 	<title></title>
 	<script src="../src/ekko.js"></script>
+	<script src="UniversityList.js"></script>
 	<script type="text/javascript">
+
 
 	window.onload = function() {
 
@@ -12,29 +14,7 @@
 			school : ['JinHua No.13 Middle School','JinHua No.1 High School','ZheJiang University']
 		}
 
-		var sequence = [
-			{
-				name    : "Tom",
-				gender  : 'male',
-				profile : {
-					school   : ['Harvard','Cambridge']
-				}
-			},
-			{
-				name    : "Jerry",
-				gender  : 'female',
-				profile : {
-					school   : ['Cansas','Washington','California']
-				}
-			},
-			{
-				name    : "Lily",
-				gender  : 'female',
-				profile : {
-					school   : ['Duke','Norton','Oxford']
-				}
-			}
-		];
+		var sequence = schoolList;
 
 		var EXP_TRIM     = /(^\s+)|(\s+$)/g;
 		//去除换行
@@ -63,7 +43,7 @@
 
 		//dom.innerHTML = html;
 		// console.log(tmp)
-		ekko.render(dom, tmp, xss);
+		ekko.render(dom, tmp,sequence);
 	}
 	
 	</script>
@@ -76,7 +56,13 @@
 
 
 	<script type="text/html" id="test">
-		<p>{{text}}</p>
+		@for ( district in sequence )
+			<h1>---{{district.id}}---</h1>
+		
+			@for ( school in district.school )
+			<p>{{ school.name }}</p>
+			@
+		@
 	</script>
 </body>
 </html>

@@ -144,7 +144,7 @@ var ekko = (function() {
 		}
 
 
-		return _result.toString().replace(EXP_HTML, "");
+		return _result;
 	}
 
 	var render = function(dom, template, data) {
@@ -152,10 +152,6 @@ var ekko = (function() {
 			//提取模板内容,去除回车和空格
 			var template = template.innerHTML.replace(EXP_TRIM, '').replace(EXP_ENTER, '');
 
-			console.log(dom.innerHTML);
-
-			console.log(renderAsOrder(template, data));
-			
 			dom.innerHTML = renderAsOrder(template, data);
 
 		} catch(err) {
